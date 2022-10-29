@@ -48,14 +48,14 @@
 #       - "SimpleHTTPServer ........ACTIVO"
 #     when: ifprodex.stdout == 1
 
-#  tasks:
-#   - name: Iniciar el proceso Simple HTTTP Server Python
-#     shell: |
-#        nohup python -m SimpleHTTPServer 8887 &
-#        sleep 18000
-#     async: 18000
-#     poll: 0
-#     when: ifprodex.stdout == 1
+  tasks:
+   - name: Iniciar el proceso Simple HTTTP Server Python
+     shell: |
+        nohup python -m SimpleHTTPServer 8887 &
+        sleep 18000
+     async: 18000
+     poll: 0
+     when: ifprodex.stdout == 1
 
 
 #  tasks:
