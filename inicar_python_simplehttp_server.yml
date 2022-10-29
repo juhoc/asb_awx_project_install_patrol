@@ -39,7 +39,7 @@
   tasks:
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
      shell: ps -eo args | grep SimpleHTTPServer | grep -v grep
-     register: vposshttp
+     register: vppshtp
      
 #  tasks:
 #   - name: Iniciar el proceso Simple HTTTP Server Python
@@ -48,14 +48,15 @@
 #        sleep 18000
 #     async: 18000
 #     poll: 0
-#     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
+#     when: vppshtp.stdout.split()[2] == "SimpleHTTPServer"
 
   tasks:
    - name: Resultado de la validacion del proceso SimpleHTTPServer
      debug:
        msg:
        - "SimpleHTTPServer ........ACTIVO"
-     when: vposshttp.stdout_lines[1].split()[0] == "python"
+#     when: vppshtp.stdout_lines[1].split()[0] == "python"
+     when: vppshtp.stdout.split()[0] == "python"
 
 #  tasks:
 #   - name: Resultado de la validacion del proceso SimpleHTTPServer
