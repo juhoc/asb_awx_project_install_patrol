@@ -31,7 +31,7 @@
   tasks:
    - name: Inicair Simple HTTTP Server Python
      shell: |
-        cd /tmp/
+        cd /tmp/pamediadwn/
         if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = ""  ]
         then
         nohup python -m SimpleHTTPServer 8887 &
