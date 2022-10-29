@@ -41,30 +41,30 @@
      shell: ps -eo args | grep SimpleHTTPServer | grep -v grep
      register: vposshttp
      
-  tasks:
-   - name: Iniciar el proceso Simple HTTTP Server Python
-     shell: |
-        nohup python -m SimpleHTTPServer 8887 &
-        sleep 18000
-     async: 18000
-     poll: 0
-     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
+#  tasks:
+#   - name: Iniciar el proceso Simple HTTTP Server Python
+#     shell: |
+#        nohup python -m SimpleHTTPServer 8887 &
+#        sleep 18000
+#     async: 18000
+#     poll: 0
+#     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
 
-  tasks:
-   - name: Resultado de la validacion del proceso SimpleHTTPServer
-     debug:
-       msg:
-       - "SimpleHTTPServer ........ACTIVO"
-     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
+#  tasks:
+#   - name: Resultado de la validacion del proceso SimpleHTTPServer
+#     debug:
+#       msg:
+#       - "SimpleHTTPServer ........ACTIVO"
+#     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
 
-  tasks:
-   - name: Resultado de la baja del proceso TS PATROL
-     fail:
-       msg:
-       - "SimpleHTTPServer ........INACTIVO"
-       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
-       - "Favor de contactar al Area Automatizacion"
-     when: vposshttp.stdout.split()[2] == ""
+#  tasks:
+#   - name: Resultado de la validacion del proceso SimpleHTTPServer
+#     fail:
+#       msg:
+#       - "SimpleHTTPServer ........INACTIVO"
+#       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
+#       - "Favor de contactar al Area Automatizacion"
+#     when: vposshttp.stdout.split()[2] == ""
 
 
 #  tasks:
