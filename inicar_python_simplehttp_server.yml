@@ -5,7 +5,7 @@
   become_method: sudo
 
   tasks:
-   - name: Mover medias al directorio temporal
+   - name: Crear directorio temporal para medioa patrol
      file:
        path: /tmp/pamediadwn
        state: directory
@@ -13,17 +13,17 @@
        group: grppatro
        mode: 0755
 
-  tasks:
-   - name: Mover medias al directorio temporal
-     copy:
-       src: /bmc/bmcinstallers/{{ item }}
-       dest: /tmp/pamediadwn/
-       owner: patrol
-       group: grppatro
-     with_items:
-       - Base_AIX_Patrol_Without.tar.gz
-       - Base_Linux_Patrol_Without.tar.gz
-       - Base_Solaris_Patrol_Without.tar.gz
+#  tasks:
+#   - name: Mover medias al directorio temporal
+#     copy:
+#       src: /bmc/bmcinstallers/{{ item }}
+#       dest: /tmp/pamediadwn/
+#       owner: patrol
+#       group: grppatro
+#     with_items:
+#       - Base_AIX_Patrol_Without.tar.gz
+#       - Base_Linux_Patrol_Without.tar.gz
+#       - Base_Solaris_Patrol_Without.tar.gz
 
 #  tasks:
 #   - name: Inicair Simple HTTTP Server Python
