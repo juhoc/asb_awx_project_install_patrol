@@ -38,7 +38,7 @@
   
   tasks:
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
-     shell: ps -eo args | grep SimpleHTTPServer | grep -v grep | wc -l
+     shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep | wc -l
      register: ifprodex
      
 #  tasks:
