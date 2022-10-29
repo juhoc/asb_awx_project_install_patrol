@@ -1,0 +1,11 @@
+- name: Ansible PlayBook - Detener HTTP Simple
+  hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
+  tasks:
+   - name: Finalizar Simple HTTTP Server Python
+     shell: |
+        if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = "python-mSimpleHTTPServer" ]
+        then
+        kill -9 $(ps -eo pid,args | grep -v grep | grep SimpleHTTPServer | awk '{print $1}')
+        else
+        echo "python-m SimpleHTTPServer8002 detenido"
+        fi

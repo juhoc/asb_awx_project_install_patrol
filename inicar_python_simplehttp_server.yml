@@ -1,0 +1,15 @@
+- name: Ansible PlayBook - Iniciar HTTP Simple
+  hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
+  tasks:
+   - name: Inicair Simple HTTTP Server Python
+     shell: |
+        cd /bmc/bmcinstallers/
+        if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = ""  ]
+        then
+        nohup python -m SimpleHTTPServer 8887 &
+        else
+        echo "python-mSimpleHTTPServer8887 iniciado"
+        fi
+        sleep 60
+     async: 900
+     poll: 0

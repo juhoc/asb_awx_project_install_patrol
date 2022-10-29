@@ -1,0 +1,5 @@
+- name: Ansible PlayBook - Instalacion y Actualizacion PatrolAgent
+  hosts: all
+  tasks:
+    - include_role:
+        name: role_patrolagent

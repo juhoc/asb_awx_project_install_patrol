@@ -1,0 +1,29 @@
+- name: Descarga media patrolagent
+  get_url:
+   url: http://150.100.43.207:8887/Base_Linux_Patrol_Without.tar.gz
+   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
+   owner: patrol
+   group: grppatro
+   mode: 0754
+   force_basic_auth: yes
+  when: ansible_facts['system'] == "AIX"
+
+- name: Descarga media patrolagent
+  get_url:
+   url: http://150.100.43.207:8887/Base_Linux_Patrol_Without.tar.gz
+   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
+   owner: patrol
+   group: grppatro
+   mode: 0754
+   force_basic_auth: yes
+  when: ansible_facts['system'] == "Linux"
+
+- name: Descarga media patrolagent
+  get_url:
+   url: http://150.100.43.207:8887/Base_Solaris_Patrol_Without.tar.gz
+   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
+   owner: patrol
+   group: grppatro
+   mode: 0754
+   force_basic_auth: yes
+  when: ansible_facts['system'] == "Solaris"
