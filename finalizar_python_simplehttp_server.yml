@@ -1,5 +1,6 @@
 - name: Ansible PlayBook - Detener HTTP Simple
-  hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
+  #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
+  hosts: asitsmaop2.awx.lab.net
   tasks:
    - name: Finalizar Simple HTTTP Server Python
      shell: |
