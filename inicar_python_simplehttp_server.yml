@@ -41,6 +41,13 @@
      shell: ps -eo args | grep SimpleHTTPServer | grep -v grep | wc -l
      register: ifprodex
      
+  tasks:
+   - name: Resultado de la validacion del proceso SimpleHTTPServer
+     debug:
+       msg:
+       - "SimpleHTTPServer ........ACTIVO"
+     when: ifprodex.stdout == 1
+
 #  tasks:
 #   - name: Iniciar el proceso Simple HTTTP Server Python
 #     shell: |
@@ -50,13 +57,6 @@
 #     poll: 0
 #     when: ifprodex.stdout == 1
 
-  tasks:
-   - name: Resultado de la validacion del proceso SimpleHTTPServer
-     debug:
-       msg:
-       - "SimpleHTTPServer ........ACTIVO"
-#     when: vppshtp.stdout_lines[1].split()[0] == "python"
-     when: ifprodex.stdout == 1
 
 #  tasks:
 #   - name: Resultado de la validacion del proceso SimpleHTTPServer
