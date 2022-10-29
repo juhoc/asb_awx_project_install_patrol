@@ -2,6 +2,7 @@
 - name: Ansible PlayBook - Iniciar HTTP Simple
   #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
   hosts: asitsmaop2.awx.lab.net
+  gather_facts: no
   become: yes
   become_method: sudo
 
