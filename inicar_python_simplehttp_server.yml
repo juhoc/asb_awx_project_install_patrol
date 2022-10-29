@@ -17,7 +17,7 @@
   tasks:
    - name: Mover medias al directorio temporal
      copy:
-       src: /bmc/bmcinstallers/Base_Linux_Patrol_Without.tar.gz
+       src: /bmc/bmcinstallers/{{ item }}
        dest: /tmp/pamediadwn/
        owner: patrol
        group: grppatro
