@@ -7,7 +7,7 @@
   become_method: sudo
 
   tasks:
-   - name: Crear directorio temporal para medioa patrol
+   - name: Crear directorio temporal para medioa PatrolAgent
      file:
        path: /tmp/pamediadwn
        state: directory
@@ -16,7 +16,7 @@
        mode: 0755
 
   tasks:
-   - name: Mover medias al directorio temporal
+   - name: Mover medias de instalacion PatrolAgent al directorio temporal
      copy:
        src: /bmc/bmcinstallers/{{ item }}
        dest: /tmp/pamediadwn/
@@ -35,6 +35,7 @@
         if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = ""  ]
         then
         nohup python -m SimpleHTTPServer 8887 &
+        id
         else
         echo "python-mSimpleHTTPServer8887 iniciado"
         fi
