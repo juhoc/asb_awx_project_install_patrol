@@ -17,14 +17,14 @@
   tasks:
    - name: Mover medias al directorio temporal
      copy:
-       src: /bmc/bmcinstallers/"{{ item }}"
+       src: /bmc/bmcinstallers/Base_Linux_Patrol_Without.tar.gz
        dest: /tmp/pamediadwn/
        owner: patrol
        group: grppatro
-     with_items:
-       - Base_AIX_Patrol_Without.tar.gz
-       - Base_Linux_Patrol_Without.tar.gz
-       - Base_Solaris_Patrol_Without.tar.gz
+#     with_items:
+#       - Base_AIX_Patrol_Without.tar.gz
+#       - Base_Linux_Patrol_Without.tar.gz
+#       - Base_Solaris_Patrol_Without.tar.gz
 
 #  tasks:
 #   - name: Inicair Simple HTTTP Server Python
