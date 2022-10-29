@@ -6,7 +6,7 @@
   become: yes
   become_method: sudo
 
-  taskc:
+  tasks:
    - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
      stat:
        path: /tmp/pamediadwn/
