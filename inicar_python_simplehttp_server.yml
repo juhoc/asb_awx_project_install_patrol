@@ -56,7 +56,7 @@
        msg:
        - "SimpleHTTPServer ........ACTIVO"
 #     when: vppshtp.stdout_lines[1].split()[0] == "python"
-     when: vppshtp.stdout.split()[0] == "python"
+     when: vppshtp.stdout in ["python","SimpleHTTPServer"]
 
 #  tasks:
 #   - name: Resultado de la validacion del proceso SimpleHTTPServer
