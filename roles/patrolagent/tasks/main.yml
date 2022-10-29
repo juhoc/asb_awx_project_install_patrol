@@ -1,6 +1,6 @@
 - name: Descarga media patrolagent
   get_url:
-   url: http://150.100.43.207:8887/Base_Linux_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
    dest: /tmp/Base_AIX_Patrol_Without.tar.gz
    owner: patrol
    group: grppatro
@@ -10,7 +10,7 @@
 
 - name: Descarga media patrolagent
   get_url:
-   url: http://150.100.43.207:8887/Base_Linux_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
    dest: /tmp/Base_AIX_Patrol_Without.tar.gz
    owner: patrol
    group: grppatro
@@ -20,7 +20,7 @@
 
 - name: Descarga media patrolagent
   get_url:
-   url: http://150.100.43.207:8887/Base_Solaris_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Solaris_Patrol_Without.tar.gz
    dest: /tmp/Base_AIX_Patrol_Without.tar.gz
    owner: patrol
    group: grppatro
