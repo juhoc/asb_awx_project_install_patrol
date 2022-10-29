@@ -6,14 +6,21 @@
   become: yes
   become_method: sudo
 
+  taskc:
+   - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
+     stat:
+       path: /tmp/pamediadwn/
+     register: vdtmipa
+ 
   tasks:
-   - name: Crear directorio temporal para medioa PatrolAgent
+   - name: Crear directorio temporal para medias de instalacion PatrolAgent
      file:
-       path: /tmp/pamediadwn
+       path: /tmp/pamediadwn/
        state: directory
        owner: patrol
        group: grppatro
        mode: 0755
+     when: vdtmipa.stat.exists
 
   tasks:
    - name: Mover medias de instalacion PatrolAgent al directorio temporal
@@ -27,6 +34,7 @@
        - Base_AIX_Patrol_Without.tar.gz
        - Base_Linux_Patrol_Without.tar.gz
        - Base_Solaris_Patrol_Without.tar.gz
+     when: vdtmipa.stat.exists
 
   tasks:
    - name: Inicair Simple HTTTP Server Python
