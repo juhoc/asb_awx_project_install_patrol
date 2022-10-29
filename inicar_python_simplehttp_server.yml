@@ -10,7 +10,7 @@
    - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
      stat:
        path: /tmp/pamediadwn/
-     register: vdtmipa
+     register: ifdirex
  
   tasks:
    - name: Crear directorio temporal para medias de instalacion PatrolAgent
@@ -20,7 +20,7 @@
        owner: patrol
        group: grppatro
        mode: 0755
-     when: vdtmipa.stat.exists
+     when: ifdirex.stat.exists
   
   tasks:
    - name: Mover medias de instalacion PatrolAgent al directorio temporal
@@ -34,12 +34,12 @@
        - Base_AIX_Patrol_Without.tar.gz
        - Base_Linux_Patrol_Without.tar.gz
        - Base_Solaris_Patrol_Without.tar.gz
-     when: vdtmipa.stat.exists
+     when: ifdirex.stat.exists
   
   tasks:
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
-     shell: ps -eo args | grep SimpleHTTPServer | grep -v grep
-     register: vppshtp
+     shell: ps -eo args | grep SimpleHTTPServer | grep -v grep | wc -l
+     register: ifprodex
      
 #  tasks:
 #   - name: Iniciar el proceso Simple HTTTP Server Python
@@ -48,7 +48,7 @@
 #        sleep 18000
 #     async: 18000
 #     poll: 0
-#     when: vppshtp.stdout.split()[2] == "SimpleHTTPServer"
+#     when: ifprodex.stdout == 1
 
   tasks:
    - name: Resultado de la validacion del proceso SimpleHTTPServer
@@ -56,7 +56,7 @@
        msg:
        - "SimpleHTTPServer ........ACTIVO"
 #     when: vppshtp.stdout_lines[1].split()[0] == "python"
-     when: vppshtp.stdout in ["python","SimpleHTTPServer"]
+     when: ifprodex.stdout == 1
 
 #  tasks:
 #   - name: Resultado de la validacion del proceso SimpleHTTPServer
