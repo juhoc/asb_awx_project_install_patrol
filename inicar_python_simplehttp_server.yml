@@ -22,9 +22,9 @@
        owner: patrol
        group: grppatro
      with_items:
-      - Base_AIX_Patrol_Without.tar.gz
-      - Base_Linux_Patrol_Without.tar.gz
-      - Base_Solaris_Patrol_Without.tar.gz
+       - Base_AIX_Patrol_Without.tar.gz
+       - Base_Linux_Patrol_Without.tar.gz
+       - Base_Solaris_Patrol_Without.tar.gz
 
 #  tasks:
 #   - name: Inicair Simple HTTTP Server Python
