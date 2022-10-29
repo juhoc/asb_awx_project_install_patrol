@@ -48,5 +48,5 @@
         echo "python-mSimpleHTTPServer8887 iniciado"
         fi
         sleep 18000
-     async: 900
+     async: 18000
      poll: 0
