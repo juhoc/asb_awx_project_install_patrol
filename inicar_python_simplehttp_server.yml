@@ -55,7 +55,7 @@
      debug:
        msg:
        - "SimpleHTTPServer ........ACTIVO"
-     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
+     when: vposshttp.stdout.split()[1] == "SimpleHTTPServer"
 
 #  tasks:
 #   - name: Resultado de la validacion del proceso SimpleHTTPServer
