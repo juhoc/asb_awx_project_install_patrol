@@ -21,7 +21,7 @@
        group: grppatro
        mode: 0755
      when: vdtmipa.stat.exists
-
+  
   tasks:
    - name: Mover medias de instalacion PatrolAgent al directorio temporal
      copy:
@@ -35,18 +35,49 @@
        - Base_Linux_Patrol_Without.tar.gz
        - Base_Solaris_Patrol_Without.tar.gz
      when: vdtmipa.stat.exists
-
+  
   tasks:
-   - name: Inicair Simple HTTTP Server Python
+   - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
+     shell: ps -eo args | grep SimpleHTTPServer | grep -v grep
+     register: vposshttp
+     
+  tasks:
+   - name: Iniciar el proceso Simple HTTTP Server Python
      shell: |
-        cd /tmp/pamediadwn/
-        if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = ""  ]
-        then
         nohup python -m SimpleHTTPServer 8887 &
-        id
-        else
-        echo "python-mSimpleHTTPServer8887 iniciado"
-        fi
         sleep 18000
      async: 18000
      poll: 0
+     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
+
+  tasks:
+   - name: Resultado de la validacion del proceso SimpleHTTPServer
+     debug:
+       msg:
+       - "SimpleHTTPServer ........ACTIVO"
+     when: vposshttp.stdout.split()[2] == "SimpleHTTPServer"
+
+  tasks:
+   - name: Resultado de la baja del proceso TS PATROL
+     fail:
+       msg:
+       - "SimpleHTTPServer ........INACTIVO"
+       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
+       - "Favor de contactar al Area Automatizacion"
+     when: vposshttp.stdout.split()[2] == ""
+
+
+#  tasks:
+#   - name: Inicair Simple HTTTP Server Python
+#     shell: |
+#        cd /tmp/pamediadwn/
+#        if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = ""  ]
+#        then
+#        nohup python -m SimpleHTTPServer 8887 &
+#        id
+#        else
+#        echo "python-mSimpleHTTPServer8887 iniciado"
+#        fi
+#        sleep 18000
+#     async: 18000
+#     poll: 0
