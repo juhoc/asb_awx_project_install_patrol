@@ -1,9 +1,9 @@
 ---
-- name: Ansible PlayBook - Instalacion y Actualizacion PatrolAgent
-  hosts: all
-  tasks:
-    - include_role:
-        name: simplehttp
+#- name: Ansible PlayBook - Instalacion y Actualizacion PatrolAgent
+#  hosts: all
+#  tasks:
+#    - include_role:
+#        name: simplehttp
 
 
 - name: Ansible PlayBook - Iniciar HTTP Simple
@@ -13,35 +13,35 @@
   become: yes
   become_method: sudo
 
-  tasks:
-   - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
-     stat:
-       path: /tmp/pamediadwn/
-     register: ifdirex
+ # tasks:
+ #  - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
+ #    stat:
+ #      path: /tmp/pamediadwn/
+ #    register: ifdirex
  
-  tasks:
-   - name: Crear directorio temporal para medias de instalacion PatrolAgent
-     file:
-       path: /tmp/pamediadwn/
-       state: directory
-       owner: patrol
-       group: grppatro
-       mode: 0755
-     when: ifdirex.stat.exists
+ # tasks:
+ #  - name: Crear directorio temporal para medias de instalacion PatrolAgent
+ #    file:
+ #      path: /tmp/pamediadwn/
+ #      state: directory
+ #      owner: patrol
+ #      group: grppatro
+ #      mode: 0755
+ #    when: ifdirex.stat.exists
   
-  tasks:
-   - name: Mover medias de instalacion PatrolAgent al directorio temporal
-     copy:
-       src: /bmc/bmcinstallers/{{ item }}
-       dest: /tmp/pamediadwn/
-       owner: patrol
-       group: grppatro
-       remote_src: yes
-     with_items:
-       - Base_AIX_Patrol_Without.tar.gz
-       - Base_Linux_Patrol_Without.tar.gz
-       - Base_Solaris_Patrol_Without.tar.gz
-     when: ifdirex.stat.exists
+ # tasks:
+ #  - name: Mover medias de instalacion PatrolAgent al directorio temporal
+ #    copy:
+ #      src: /bmc/bmcinstallers/{{ item }}
+ #      dest: /tmp/pamediadwn/
+ #      owner: patrol
+ #      group: grppatro
+ #      remote_src: yes
+ #    with_items:
+ #      - Base_AIX_Patrol_Without.tar.gz
+ #      - Base_Linux_Patrol_Without.tar.gz
+ #      - Base_Solaris_Patrol_Without.tar.gz
+ #    when: ifdirex.stat.exists
   
   tasks:
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
@@ -55,14 +55,14 @@
 #       - "SimpleHTTPServer ........ACTIVO"
 #     when: ifprodex.stdout == 1
 
-  tasks:
-   - name: Iniciar el proceso Simple HTTTP Server Python
-     shell: |
-        nohup python -m SimpleHTTPServer 8887 &
-        sleep 18000
-     async: 18000
-     poll: 0
-     when: ifprodex.stdout == 1
+#  tasks:
+#   - name: Iniciar el proceso Simple HTTTP Server Python
+#     shell: |
+#        nohup python -m SimpleHTTPServer 8887 &
+#        sleep 18000
+#     async: 18000
+#     poll: 0
+#     when: ifprodex.stdout == 1
 
 
 #  tasks:
