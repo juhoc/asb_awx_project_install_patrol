@@ -64,7 +64,6 @@
      poll: 0
      when: ifprodex.stdout == 1
 
-
   tasks:
    - name: Resultado de la validacion del proceso SimpleHTTPServer
      fail:
@@ -72,7 +71,7 @@
        - "SimpleHTTPServer ........INACTIVO"
        - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
        - "Favor de contactar al Area Automatizacion"
-     when: vposshttp.stdout.split()[2] == ""
+     when: ifprodex.stdout. == 0
 
 #  tasks:
 #   - name: Inicair Simple HTTTP Server Python
