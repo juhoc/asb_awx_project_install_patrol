@@ -36,4 +36,6 @@
        - Base_AIX_Patrol_Without.tar.gz
        - Base_Linux_Patrol_Without.tar.gz
        - Base_Solaris_Patrol_Without.tar.gz
-     when: (siexdirtmp.stat.exists == true and sitoes.stdout >= 1016)
+     when: 
+       - siexdirtmp.stat.exists == true
+       - sitoes.stdout >= 1016
