@@ -48,12 +48,21 @@
      shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
      register: ifprodex
      
-#  tasks:
-#   - name: Resultado de la validacion del proceso SimpleHTTPServer
-#     debug:
-#       msg:
-#       - "SimpleHTTPServer ........ACTIVO"
-#     when: ifprodex.stdout == "ACTIVO"
+  tasks:
+   - name: Resultado de la validacion del proceso SimpleHTTPServer
+     debug:
+       msg:
+       - "SimpleHTTPServer ........ACTIVO"
+     when: ifprodex.stdout == "ACTIVO"
+
+  tasks:
+   - name: Resultado de la validacion del proceso SimpleHTTPServer
+     fail:
+       msg:
+       - "SimpleHTTPServer ........INACTIVO"
+       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
+       - "Favor de contactar al Area Automatizacion"
+     when: ifprodex.stdout == INACTIVO
 
 #  tasks:
 #   - name: Iniciar el proceso Simple HTTTP Server Python
@@ -63,15 +72,6 @@
 #     async: 18000
 #     poll: 0
 #     when: ifprodex.stdout == 1
-
-#  tasks:
-#   - name: Resultado de la validacion del proceso SimpleHTTPServer
-#     fail:
-#       msg:
-#       - "SimpleHTTPServer ........INACTIVO"
-#       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
-#       - "Favor de contactar al Area Automatizacion"
-#     when: ifprodex.stdout == INACTIVO
 
 #  tasks:
 #   - name: Inicair Simple HTTTP Server Python
