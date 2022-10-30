@@ -38,4 +38,4 @@
        - Base_Solaris_Patrol_Without.tar.gz
      when: 
        - siexdirtmp.stat.exists == true
-       - sitoes.stdout|int >= '1016'
+       - sitoes.stdout | int >= '1016'
