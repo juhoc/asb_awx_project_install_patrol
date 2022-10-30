@@ -71,7 +71,7 @@
        - "SimpleHTTPServer ........INACTIVO"
        - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
        - "Favor de contactar al Area Automatizacion"
-     when: ifprodex.stdout. == 0
+     when: ifprodex.stdout != 1
 
 #  tasks:
 #   - name: Inicair Simple HTTTP Server Python
