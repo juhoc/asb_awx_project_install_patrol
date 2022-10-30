@@ -53,7 +53,7 @@
      debug:
        msg:
        - "SimpleHTTPServer ........ACTIVO"
-     when: val_p1.stdout == "ACTIVO"
+     when: val_p1.stdout_lines in ["ACTIVO"]
 
   tasks:
    - name: Resultado de la validacion del proceso SimpleHTTPServer
@@ -62,7 +62,7 @@
        - "SimpleHTTPServer ........INACTIVO"
        - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
        - "Favor de contactar al Area Automatizacion"
-     when: val_p1.stdout == INACTIVO
+     when: val_p1.stdout_lines not in ["INACTIVO"]
 
 #  tasks:
 #   - name: Iniciar el proceso Simple HTTTP Server Python
