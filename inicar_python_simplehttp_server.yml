@@ -19,7 +19,7 @@
       owner: patrol
       group: grppatro
       mode: 0755
-     when: siexdirtmp.stat.exists
+     when: siexdirtmp.stat.exists == false
 
    - name: Mover medias de instalacion PatrolAgent al directorio temporal
      copy:
@@ -32,4 +32,4 @@
        - Base_AIX_Patrol_Without.tar.gz
        - Base_Linux_Patrol_Without.tar.gz
        - Base_Solaris_Patrol_Without.tar.gz
-     when: siexdirtmp.stat.exists
+     when: siexdirtmp.stat.exists == true
