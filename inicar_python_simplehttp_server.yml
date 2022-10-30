@@ -1,89 +1,61 @@
 ---
-#- name: Ansible PlayBook - Instalacion y Actualizacion PatrolAgent
-#  hosts: all
-#  tasks:
-#    - include_role:
-#        name: simplehttp
-
-
-- name: Ansible PlayBook - Iniciar HTTP Simple
+- name: Ansible PlayBook - Instalacion y Actualizacion PatrolAgent
   #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
   hosts: asitsmaop2.awx.lab.net
   gather_facts: yes
   become: yes
   become_method: sudo
 
- # tasks:
- #  - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
- #    stat:
- #      path: /tmp/pamediadwn/
- #    register: val_d1
- 
- # tasks:
- #  - name: Crear directorio temporal para medias de instalacion PatrolAgent
- #    file:
- #      path: /tmp/pamediadwn/
- #      state: directory
- #      owner: patrol
- #      group: grppatro
- #      mode: 0755
- #    when: val_d1.stat.exists
-  
- # tasks:
- #  - name: Mover medias de instalacion PatrolAgent al directorio temporal
- #    copy:
- #      src: /bmc/bmcinstallers/{{ item }}
- #      dest: /tmp/pamediadwn/
- #      owner: patrol
- #      group: grppatro
- #      remote_src: yes
- #    with_items:
- #      - Base_AIX_Patrol_Without.tar.gz
- #      - Base_Linux_Patrol_Without.tar.gz
- #      - Base_Solaris_Patrol_Without.tar.gz
- #    when: val_d1.stat.exists
-  
   tasks:
+    - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
+      stat:
+      path: /tmp/pamediadwn/
+      register: siexdirtmp
+   
+    - name: Crear directorio temporal para medias de instalacion PatrolAgent
+      file:
+       path: /tmp/pamediadwn/
+       state: directory
+       owner: patrol
+       group: grppatro
+       mode: 0755
+      when: siexdirtmp.stat.exists
+
+   - name: Mover medias de instalacion PatrolAgent al directorio temporal
+     copy:
+      src: /bmc/bmcinstallers/{{ item }}
+      dest: /tmp/pamediadwn/
+      owner: patrol
+      group: grppatro
+      remote_src: yes
+     with_items:
+       - Base_AIX_Patrol_Without.tar.gz
+       - Base_Linux_Patrol_Without.tar.gz
+       - Base_Solaris_Patrol_Without.tar.gz
+     when: siexdirtmp.stat.exists
+
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
      shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
-     register: val_p1
-     
-  tasks:
+     register: siexprohttp
+
    - name: Resultado de la validacion del proceso SimpleHTTPServer
      debug:
        msg:
        - "SimpleHTTPServer ........ACTIVO"
-     when: val_p1.stdout_lines in ["ACTIVO"]
+     when: siexprochttp.stdout == "ACTIVO"
 
-  tasks:
-   - name: Resultado de la validacion del proceso SimpleHTTPServer
+   - name: Resultado de la falla del proceso SimpleHTTPServer
      fail:
        msg:
        - "SimpleHTTPServer ........INACTIVO"
        - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
        - "Favor de contactar al Area Automatizacion"
-     when: val_p1.stdout_lines not in ["INACTIVO"]
+     when: siexprochttp.stdout == "INACTIVO"
 
-#  tasks:
-#   - name: Iniciar el proceso Simple HTTTP Server Python
-#     shell: |
-#        nohup python -m SimpleHTTPServer 8887 &
-#        sleep 18000
-#     async: 18000
-#     poll: 0
-#     when: ifprodex.stdout == 1
-
-#  tasks:
-#   - name: Inicair Simple HTTTP Server Python
-#     shell: |
-#        cd /tmp/pamediadwn/
-#        if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = ""  ]
-#        then
-#        nohup python -m SimpleHTTPServer 8887 &
-#        id
-#        else
-#        echo "python-mSimpleHTTPServer8887 iniciado"
-#        fi
-#        sleep 18000
-#     async: 18000
-#     poll: 0
+   - name: Iniciar el proceso Simple HTTTP Server Python
+     shell: |
+        nohup python -m SimpleHTTPServer 8887 &
+        sleep 18000
+     async: 18000
+     poll: 0
+     when: siexprochttp.stdout == "ACTIVO"
