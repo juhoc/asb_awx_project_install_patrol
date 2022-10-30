@@ -20,3 +20,16 @@
       group: grppatro
       mode: 0755
      when: siexdirtmp.stat.exists
+
+   - name: Mover medias de instalacion PatrolAgent al directorio temporal
+     copy:
+      src: /bmc/bmcinstallers/{{ item }}
+      dest: /tmp/pamediadwn/
+      owner: patrol
+      group: grppatro
+      remote_src: yes
+     with_items:
+       - Base_AIX_Patrol_Without.tar.gz
+       - Base_Linux_Patrol_Without.tar.gz
+       - Base_Solaris_Patrol_Without.tar.gz
+     when: siexdirtmp.stat.exists
