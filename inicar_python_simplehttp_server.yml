@@ -11,3 +11,12 @@
      stat:
       path: /tmp/pamediadwn/
      register: siexdirtmp
+
+   - name: Crear directorio temporal para medias de instalacion PatrolAgent
+     file:
+      path: /tmp/pamediadwn/
+      state: directory
+      owner: patrol
+      group: grppatro
+      mode: 0755
+     when: siexdirtmp.stat.exists
