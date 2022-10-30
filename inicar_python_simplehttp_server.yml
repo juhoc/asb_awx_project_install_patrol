@@ -21,6 +21,10 @@
       mode: 0755
      when: siexdirtmp.stat.exists == false
 
+   - name: Validar el tamaño de directorio temporal para medias de instalacion PatrlAgent
+     shell: du /tmp/pamediadwn/ | awk '{print $i/1024}' | cut -d . -f1
+     register: sitoes
+
    - name: Mover medias de instalacion PatrolAgent al directorio temporal
      copy:
       src: /bmc/bmcinstallers/{{ item }}
@@ -32,4 +36,4 @@
        - Base_AIX_Patrol_Without.tar.gz
        - Base_Linux_Patrol_Without.tar.gz
        - Base_Solaris_Patrol_Without.tar.gz
-     when: siexdirtmp.stat.exists == true
+     when: siexdirtmp.stat.exists == true and sitoes >= 1016
