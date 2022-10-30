@@ -55,25 +55,24 @@
 #       - "SimpleHTTPServer ........ACTIVO"
 #     when: ifprodex.stdout == 1
 
-#  tasks:
-#   - name: Iniciar el proceso Simple HTTTP Server Python
-#     shell: |
-#        nohup python -m SimpleHTTPServer 8887 &
-#        sleep 18000
-#     async: 18000
-#     poll: 0
-#     when: ifprodex.stdout == 1
+  tasks:
+   - name: Iniciar el proceso Simple HTTTP Server Python
+     shell: |
+        nohup python -m SimpleHTTPServer 8887 &
+        sleep 18000
+     async: 18000
+     poll: 0
+     when: ifprodex.stdout == 1
 
 
-#  tasks:
-#   - name: Resultado de la validacion del proceso SimpleHTTPServer
-#     fail:
-#       msg:
-#       - "SimpleHTTPServer ........INACTIVO"
-#       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
-#       - "Favor de contactar al Area Automatizacion"
-#     when: vposshttp.stdout.split()[2] == ""
-
+  tasks:
+   - name: Resultado de la validacion del proceso SimpleHTTPServer
+     fail:
+       msg:
+       - "SimpleHTTPServer ........INACTIVO"
+       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
+       - "Favor de contactar al Area Automatizacion"
+     when: vposshttp.stdout.split()[2] == ""
 
 #  tasks:
 #   - name: Inicair Simple HTTTP Server Python
