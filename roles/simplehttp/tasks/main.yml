@@ -1,1 +1,3 @@
-
+---
+- name: Cargando PlayBook inicair SimpleHTTPServer
+  include_tasks: "{{ start_simplehttp.yml"
