@@ -1,5 +1,5 @@
 ---
-- name: Descarga media PatrolAgent "{{ ansible_facts['system'] }}" en el remote Host
+- name: Descarga media PatrolAgent "{{ ansible_facts['system'] }}" en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_method: sudo
   get_url:   
@@ -11,12 +11,12 @@
    force_basic_auth: yes
   when: (ansible_facts['system'] == "AIX") or (ansible_facts['system'] == "Linux") or (ansible_facts['system'] == "Solaris")
   
-- name: Validar permisos en el directorio patrol en el remote host
+- name: Validar permisos en el directorio patrol en el remote host "{{ ansible_facts['nodename'] }}"
   stat:
    path: /patrol/
   register: siperejcdirpa
   
-- name: Correccion de permisos al directorio /patrol antes de instalar en el remote Host
+- name: Correccion de permisos al directorio /patrol antes de instalar en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_method: sudo
   file:
@@ -27,7 +27,7 @@
     mode: 0755
   when: siperejcdirpa.stat.mode != "0755"
 
-- name: Cambiar permisos al Inslador PatrolAgent en el remote Host
+- name: Cambiar permisos al Inslador PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_method: sudo
   file:
