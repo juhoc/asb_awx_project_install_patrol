@@ -146,3 +146,12 @@
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout != "ACTIVO"
     
+- name: Restaurar permisos directrio config_v3.X de PatrolAgent para reconfiguracion en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_method: sudo
+  file:
+    path: /patrol/common/security/config_v3.0/
+    mode: 0700
+  when:
+    - valpaver.stdout.split()[1] == "V22.1.00i"
+    - valpaproc.stdout != "ACTIVO"
