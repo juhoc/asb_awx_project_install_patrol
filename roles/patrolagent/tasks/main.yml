@@ -133,3 +133,16 @@
   when:
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout != "ACTIVO"
+    
+- name: Ejecutar reconfiguracion PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_method: sudo
+  shell: |
+      cd /patrol/Patrol3
+      ./agent_configure.sh -d
+      cd /patrol/common/security/config_v3.0
+      ./sec_configure.sh /patrol/Patrol3 0
+  when:
+    - valpaver.stdout.split()[1] == "V22.1.00i"
+    - valpaproc.stdout != "ACTIVO"
+    
