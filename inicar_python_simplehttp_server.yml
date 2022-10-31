@@ -51,7 +51,7 @@
         sleep 18000
      async: 18000
      poll: 0
-     when: siexprochttp.stdout == "ACTIVO"
+     when: siexprochttp.stdout == "INACTIVO"
 
    - name: Resultado de la validacion del proceso SimpleHTTPServer
      debug:
