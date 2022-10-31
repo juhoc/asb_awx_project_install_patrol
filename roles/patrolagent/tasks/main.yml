@@ -1,5 +1,5 @@
 ---  
-- name: Validar permisos en el directorio patrol
+- name: Validar permisos en el directorio patrol en el remote host
   stat:
    path: /patrol/
   register: siperejcdirpa
@@ -14,3 +14,12 @@
     group: grppatro
     mode: 0755
   when: siperejcdirpa.stat.mode != "0755"
+
+- name: Cambiar permisos al Inslador PatrolAgent en el remote Host
+  become: yes
+  become_method: sudo
+  file:
+    path: /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
+    owner: patrol
+    group: grppatro
+    mode: 0754
