@@ -77,4 +77,3 @@
   become_method: su
   become_exe: sudo su -
   shell: echo "./RunSilentInstall.sh -no_backup"
-  when: pav_val.stderr.split()[1] != "V22.1.00i"
