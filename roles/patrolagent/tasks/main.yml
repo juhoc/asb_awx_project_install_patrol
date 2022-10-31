@@ -1,15 +1,39 @@
 ---
-- name: Descarga media PatrolAgent "{{ ansible_facts['system'] }}" en el remote Host "{{ ansible_facts['nodename'] }}"
+- name: Descarga media PatrolAgent AIX en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_method: sudo
+  get_url:
+   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
+   owner: patrol
+   group: grppatro
+   mode: 0754
+   force_basic_auth: yes
+  when: ansible_facts['system'] == "AIX"
+
+- name: Descarga media PatrolAgent Linux en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_method: sudo
+  get_url:
+   dest: /tmp/Base_Linux_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
+   owner: patrol
+   group: grppatro
+   mode: 0754
+   force_basic_auth: yes
+  when: ansible_facts['system'] == "Linux"
+
+- name: Descarga media PatrolAgent Solaris en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_method: sudo
   get_url:   
-   dest: /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
+   dest: /tmp/Base_Solaris_Patrol_Without.tar.gz
    url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Solaris_Patrol_Without.tar.gz
    owner: patrol
    group: grppatro
    mode: 0754
    force_basic_auth: yes
-  when: (ansible_facts['system'] == "AIX") or (ansible_facts['system'] == "Linux") or (ansible_facts['system'] == "Solaris")
+  when: ansible_facts['system'] == "Solaris"
   
 - name: Validar permisos en el directorio patrol en el remote host "{{ ansible_facts['nodename'] }}"
   stat:
