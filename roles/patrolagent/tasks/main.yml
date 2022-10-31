@@ -221,14 +221,14 @@
   debug:
     msg:
      - "PatrolAgent ........ACTIVO"
-	   - "PatrolAgentVersion..{{ valpaver.stdout.split()[1] }}"
+     - "PatrolAgentVersion..{{ valpaver.stdout.split()[1] }}"
   when: valpaproc.stdout == "ACTIVO"
 
 - name: Resultado de la alta del proceso TS PATROL
   fail:
     msg:
      - "PatrolAgent ........INACTIVO"
-	   - "PatrolAgentVersion..{{ valpaver.stdout.split()[1] }}"
+     - "PatrolAgentVersion..{{ valpaver.stdout.split()[1] }}"
      - "El procesos no pudo ser ACTIVADO correctamente"
      - "Favor de contactar al Area de RTMonitoring & Monitoring"
   when: valpaproc.stdout == "INACTIVO"
