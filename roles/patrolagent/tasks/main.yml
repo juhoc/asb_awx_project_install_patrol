@@ -92,6 +92,8 @@
   become_user: patrol
   become_method: su
   become_exe: sudo su -
-  shell: ./RunSilentInstall.sh -no_backup
+  shell: |
+    cd /tmp/bmc_products/
+    ./RunSilentInstall.sh -no_backup
   when: valpaver.stdout.split()[1] != "V22.1.00i"
   
