@@ -33,7 +33,7 @@
    - name: Mover medias de instalacion PatrolAgent al directorio temporal
      copy:
       src: /bmc/bmcinstallers/{{ item.item }}
-      dest: /tmp/{{ item.item }}
+      dest: /tmp/pamediadwn/{{ item.item }}
       owner: patrol
       group: grppatro
       mode: 0755
