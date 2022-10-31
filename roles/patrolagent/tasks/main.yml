@@ -117,7 +117,7 @@
   shell: ps -eo args | grep -v grep | grep -i patrolagent >/dev/null && echo ACTIVO || echo INACTIVO
   register: valpaproc
 
-- name: Baja y reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+- name: Baja antes de la reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
   become_method: su
@@ -198,6 +198,17 @@
     state: directory
     recurse: yes
     mode: 0644
+  when: 
+    - valpaver.stdout.split()[1] == "V22.1.00i"
+    - valpaproc.stdout == "INACTIVO"
+
+- name: Alta despues de la reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_user: patrol
+  become_method: su
+  become_exe: sudo su -
+  shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh start
+  register: sttpaarc
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout == "INACTIVO"
