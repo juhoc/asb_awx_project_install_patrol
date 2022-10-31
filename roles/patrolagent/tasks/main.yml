@@ -124,7 +124,7 @@
     - /etc/patrol.d/dlls.conf
   when: valpaver.stdout.split()[1] == "V22.1.00i"
 
-- name: Remover directorios PatrolAgent en el remote Host.
+- name: Borrar directorios history y streamcache de PatrolAgent en el remote Host  "{{ ansible_facts['nodename'] }}"
   become: yes
   become_method: sudo
   file:
