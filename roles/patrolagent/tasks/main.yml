@@ -13,4 +13,4 @@
     owner: patrol
     group: grppatro
     mode: 0755
-  when: siperejcdirpa.stat.mode == "0755"
+  when: siperejcdirpa.stat.mode != "0755"
