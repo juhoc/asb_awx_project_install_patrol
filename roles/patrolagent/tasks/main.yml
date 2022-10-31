@@ -239,4 +239,4 @@
     state: absent
   with_items:
     - /tmp/bmc_products/
-	  - /tmp/Base_{{ ansible_system }}_Patrol_Without.tar.gz
+    - /tmp/Base_{{ ansible_system }}_Patrol_Without.tar.gz
