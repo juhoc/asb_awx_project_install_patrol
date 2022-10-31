@@ -1,35 +1,6 @@
-- name: Descarga media patrolagent
-  become: yes
-  become_method: sudo
-  get_url:
-   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
-   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
-   owner: patrol
-   group: grppatro
-   mode: 0754
-   force_basic_auth: yes
-  when: ansible_facts['system'] == "AIX"
-
-- name: Descarga media patrolagent
-  become: yes
-  become_method: sudo
-  get_url:
-   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
-   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
-   owner: patrol
-   group: grppatro
-   mode: 0754
-   force_basic_auth: yes
-  when: ansible_facts['system'] == "Linux"
-
-- name: Descarga media patrolagent
-  become: yes
-  become_method: sudo
-  get_url:   
-   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
-   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Solaris_Patrol_Without.tar.gz
-   owner: patrol
-   group: grppatro
-   mode: 0754
-   force_basic_auth: yes
-  when: ansible_facts['system'] == "Solaris"
+---  
+- name: Validar permisos en el directorio patrol
+  stat:
+   path: /patrol/
+  register: siperejcdirpa
+  
