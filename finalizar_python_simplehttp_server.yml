@@ -17,5 +17,5 @@
      
    - name: Borrar medias de instalacion PatrolAgent al directorio temporal
      file:
-       path: /tmp/pamediadwn
+       path: /tmp/pamediadwn/
        state: absent
