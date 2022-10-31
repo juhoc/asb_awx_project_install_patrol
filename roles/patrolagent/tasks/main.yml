@@ -234,9 +234,11 @@
   when: valpaproc.stdout == "INACTIVO"
 
 - name: Borrar medias Patrol del directorio Temporal
+  become: yes
+  become_method: sudo
   file:
     path: "{{ item }}"
     state: absent
   with_items:
-    - /tmp/bmc_products
+    - /tmp/bmc_products/
     - /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
