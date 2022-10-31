@@ -77,14 +77,16 @@
   become_method: su
   become_exe: sudo su -
   shell: /patrol/Patrol3/PatrolAgent -v
-  register: pav_val
+  register: valpaver
   ignore_errors: yes
 
-#- name: Validar la version actual en el remote Host "{{ ansible_facts['nodename'] }}"
-#  become: yes
-#  become_user: patrol
-#  become_method: su
-#  become_exe: sudo su -
-#  shell: ./RunSilentInstall.sh -no_backup
+- name: Validar la version actual en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_user: patrol
+  become_method: su
+  become_exe: sudo su -
+  shell: ./RunSilentInstall.sh -no_backup
+  when: valpaver.stderr.split()[1] != "V22.1.00i"
+
   
   
