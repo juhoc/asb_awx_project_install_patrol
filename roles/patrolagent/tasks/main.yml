@@ -135,5 +135,5 @@
     - /patrol/Patrol3/log/streamcache/
   when:
     - valpaver.stdout.split()[1] == "V22.1.00i"
-    - valpaproc.stdout == "ACTIVO"
+    - valpaproc.stdout != "ACTIVO"
   
