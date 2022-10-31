@@ -71,23 +71,29 @@
     mode: 0754
     remote_src: yes
 
-- name: Validar la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+- name: Obtener la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
   become_method: su
   become_exe: sudo su -
-  shell: /patrol/Patrol3/PatrolAgent -v
-  register: valpaver
-  ignore_errors: yes
+  shell: /patrol/Patrol3/PatrolAgent -v > ~/out_PatrolAgentVersion 2>~/val_PatrolAgentVersion
 
-- name: Iniciar la instalacion de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+- name: Obtener la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
   become_method: su
   become_exe: sudo su -
-  shell: ./RunSilentInstall.sh -no_backup
-  when: valpaver.stderr.split()[1] != "V22.1.00i"
-  ignore_errors: yes
+  shell: cat ~/*_PatrolAgentVersion | grep "V[0-9][0-9].[0-9].[0-9][0-9]i"
+  register: valpaver
+
+#- name: Iniciar la instalacion de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+#  become: yes
+#  become_user: patrol
+#  become_method: su
+#  become_exe: sudo su -
+#  shell: ./RunSilentInstall.sh -no_backup
+#  when: valpaver.stderr.split()[1] != "V22.1.00i"
+#  ignore_errors: yes
 
 
   
