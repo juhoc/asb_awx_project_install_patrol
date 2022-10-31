@@ -71,9 +71,20 @@
     mode: 0754
     remote_src: yes
 
-- name: Validar la version actual en el remote Host
+- name: Validar la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
   become_method: su
   become_exe: sudo su -
-  shell: echo "./RunSilentInstall.sh -no_backup"
+  shell: /patrol/Patrol3/PatrolAgent -v
+  register: pav_val
+  ignore_errors: yes
+
+#- name: Validar la version actual en el remote Host "{{ ansible_facts['nodename'] }}"
+#  become: yes
+#  become_user: patrol
+#  become_method: su
+#  become_exe: sudo su -
+#  shell: ./RunSilentInstall.sh -no_backup
+  
+  
