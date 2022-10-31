@@ -21,19 +21,35 @@
       mode: 0755
      when: siexdirtmp.stat.exists == false
 
-#   - name: Validar el tamaño de directorio temporal para medias de instalacion PatrlAgent
-#     shell: du /tmp/pamediadwn/ | awk '{print $i*1024}'
-#     register: sitoes
-
-   - name: Mover medias de instalacion PatrolAgent al directorio temporal
-     copy:
-      src: /bmc/bmcinstallers/{{ item }}
-      dest: /tmp/pamediadwn/
-      owner: patrol
-      group: grppatro
-      remote_src: yes
+   - name: Validando medias de instalacion PatrolAgent en el directorio repositorio
+     stat:
+      path: /bmc/bmcinstallers/{{ item }}
      with_items:
        - Base_AIX_Patrol_Without.tar.gz
        - Base_Linux_Patrol_Without.tar.gz
        - Base_Solaris_Patrol_Without.tar.gz
-     when: siexdirtmp.stat.exists == true
+     register: siexmedpa
+
+   - name: Mover medias de instalacion PatrolAgent al directorio temporal
+     copy:
+      src: /bmc/bmcinstallers/{{ item.item }}
+      dest: /tmp/{{ item.item }}
+      owner: patrol
+      group: grppatro
+      mode: 0755
+      remote_src: yes
+     with_items: "{{ siexmedpa.results }}"
+     when: item.stat.exists
+
+#   - name: Mover medias de instalacion PatrolAgent al directorio temporal
+#     copy:
+#      src: /bmc/bmcinstallers/{{ item }}
+#      dest: /tmp/pamediadwn/
+#      owner: patrol
+#      group: grppatro
+#      remote_src: yes
+#     with_items:
+#       - Base_AIX_Patrol_Without.tar.gz
+#       - Base_Linux_Patrol_Without.tar.gz
+#       - Base_Solaris_Patrol_Without.tar.gz
+#     when: siexdirtmp.stat.exists == true
