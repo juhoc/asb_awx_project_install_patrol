@@ -212,3 +212,23 @@
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout == "INACTIVO"
+
+- name: Validar el proceso de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  shell: ps -eo args | grep -v grep | grep -i patrolagent >/dev/null && echo ACTIVO || echo INACTIVO
+  register: valpaproc
+
+- name: Resultado de la alta de PatrolAgent en el remote Host
+  debug:
+    msg:
+     - "PatrolAgent ........ACTIVO"
+	   - "PatrolAgentVersion..{{ valpaver.stdout.split()[1] }}"
+  when: valpaproc.stdout == "ACTIVO"
+
+- name: Resultado de la alta del proceso TS PATROL
+  fail:
+    msg:
+     - "PatrolAgent ........INACTIVO"
+	   - "PatrolAgentVersion..{{ valpaver.stdout.split()[1] }}"
+     - "El procesos no pudo ser ACTIVADO correctamente"
+     - "Favor de contactar al Area de RTMonitoring & Monitoring"
+  when: valpaproc.stdout == "INACTIVO"
