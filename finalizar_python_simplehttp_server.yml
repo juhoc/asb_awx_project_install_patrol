@@ -1,12 +1,21 @@
-- name: Ansible PlayBook - Detener HTTP Simple
+---
+- name: Ansible PlayBook - finalizar proceso SimpleHTTPServer
   #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
   hosts: asitsmaop2.awx.lab.net
+  gather_facts: yes
+  become: yes
+  become_method: sudo
+  
   tasks:
+   - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion en el equipo
+     shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
+     register: siexprochttp
+  
    - name: Finalizar Simple HTTTP Server Python
-     shell: |
-        if [ "$(ps -eo args | grep SimpleHTTPServer | grep -v grep | tr -d " ")" = "python-mSimpleHTTPServer" ]
-        then
-        kill -9 $(ps -eo pid,args | grep -v grep | grep SimpleHTTPServer | awk '{print $1}')
-        else
-        echo "python-m SimpleHTTPServer8002 detenido"
-        fi
+     shell: kill -9 $(ps -eo pid,args | grep -v grep | grep SimpleHTTPServer | awk '{print $1}')
+     when: siexprochttp.stdout == "ACTIVO"
+     
+   - name: Borrar medias de instalacion PatrolAgent al directorio temporal
+     file:
+       path: /tmp/pamediadwn
+       state: absent
