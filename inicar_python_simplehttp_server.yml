@@ -22,7 +22,7 @@
      when: siexdirtmp.stat.exists == false
 
    - name: Validar el tamaño de directorio temporal para medias de instalacion PatrlAgent
-     shell: du /tmp/pamediadwn/ | awk '{print $i/1024}' | cut -d . -f1
+     shell: du /tmp/pamediadwn/ | awk '{print $i/1024}' | cut -d . -f1 | sed 's/^0$/0000/g'
      register: sitoes
 
    - name: Mover medias de instalacion PatrolAgent al directorio temporal
