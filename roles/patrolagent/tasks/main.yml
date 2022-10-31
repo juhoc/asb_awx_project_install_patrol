@@ -119,6 +119,10 @@
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout == "ACTIVO"
 
+- name: Validar el proceso de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  shell: ps -eo args | grep -v grep | grep -i patrolagent >/dev/null && echo ACTIVO || echo INACTIVO
+  register: valpaproc
+
 - name: Borrar directorios history y streamcache de PatrolAgent en el remote Host  "{{ ansible_facts['nodename'] }}"
   become: yes
   become_method: sudo
@@ -130,7 +134,7 @@
     - /patrol/Patrol3/log/streamcache/
   when:
     - valpaver.stdout.split()[1] == "V22.1.00i"
-    - valpaproc.stdout != "ACTIVO"
+    - valpaproc.stdout == "INACTIVO"
   
 - name: Cambiar permisos directrio config_v3.X de PatrolAgent para reconfiguracion en el remote Host  "{{ ansible_facts['nodename'] }}"
   become: yes
@@ -140,7 +144,7 @@
     mode: 0744
   when:
     - valpaver.stdout.split()[1] == "V22.1.00i"
-    - valpaproc.stdout != "ACTIVO"
+    - valpaproc.stdout == "INACTIVO"
     
 - name: Ejecutar reconfiguracion PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
@@ -152,7 +156,7 @@
       ./sec_configure.sh /patrol/Patrol3 0
   when:
     - valpaver.stdout.split()[1] == "V22.1.00i"
-    - valpaproc.stdout != "ACTIVO"
+    - valpaproc.stdout == "INACTIVO"
     
 - name: Restaurar permisos directrio config_v3.X de PatrolAgent para reconfiguracion en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
@@ -162,7 +166,7 @@
     mode: 0700
   when:
     - valpaver.stdout.split()[1] == "V22.1.00i"
-    - valpaproc.stdout != "ACTIVO"
+    - valpaproc.stdout == "INACTIVO"
 
 - name: Cambiar permisos a los archivos patrol.conf y dlls.conf de PatrolAgent en el remote Host Ansible "{{ ansible_facts['nodename'] }}"
   become: yes
@@ -176,7 +180,7 @@
     - /etc/patrol.d/dlls.conf
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
-    - valpaproc.stdout != "ACTIVO"
+    - valpaproc.stdout == "INACTIVO"
 
 - name: Cambiar permisos a los archivos patrol.conf y dlls.conf de PatrolAgent en el remote Host Ansible "{{ ansible_facts['nodename'] }}"
   become: yes
@@ -186,4 +190,4 @@
     mode: 0644
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
-    - valpaproc.stdout != "ACTIVO"
+    - valpaproc.stdout == "INACTIVO"
