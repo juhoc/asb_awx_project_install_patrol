@@ -97,7 +97,15 @@
     ./RunSilentInstall.sh -no_backup
   when: valpaver.stdout.split()[1] != "V22.1.00i"
 
-- name: Validar PatrolAgent
+- name: Generar salida de la version actual de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_user: patrol
+  become_method: su
+  become_exe: sudo su -
+  shell: /patrol/Patrol3/PatrolAgent -v > ~/out_PatrolAgentVersion 2> ~/val_PatrolAgentVersion
+  ignore_errors: yes
+
+- name: Validar el proceso de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   shell: ps -eo args | grep -v grep | grep -i patrolagent >/dev/null && echo ACTIVO || echo INACTIVO
   register: valpaproc
 
@@ -156,19 +164,26 @@
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout != "ACTIVO"
 
-- name: Cambiar permisos a los archivos /etc/patrol./ de PatrolAgent en el remote Host Ansible "{{ ansible_facts['nodename'] }}"
+- name: Cambiar permisos a los archivos patrol.conf y dlls.conf de PatrolAgent en el remote Host Ansible "{{ ansible_facts['nodename'] }}"
   become: yes
   become_method: sudo
   file:
     path: "{{ item }}"
     mode: 0644
-    recurse: yes
   ignore_errors: yes
   with_items:
     - /etc/patrol.d/patrol.conf
-    - /etc/patrol.d/security_policy_v3.0/
     - /etc/patrol.d/dlls.conf
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout != "ACTIVO"
 
+- name: Cambiar permisos a los archivos patrol.conf y dlls.conf de PatrolAgent en el remote Host Ansible "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_method: sudo
+  file:
+    path: /etc/patrol.d/security_policy_v3.0/
+    mode: 0644
+  when: 
+    - valpaver.stdout.split()[1] == "V22.1.00i"
+    - valpaproc.stdout != "ACTIVO"
