@@ -97,10 +97,16 @@
     ./RunSilentInstall.sh -no_backup
   when: valpaver.stdout.split()[1] != "V22.1.00i"
 
+- name: Validar PatrolAgent
+  shell: ps -eo args | grep -v grep | grep -i patrolagent >/dev/null && echo ACTIVO || echo INACTIVO
+  register: valpaproc
+
 - name: Baja y reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
   become_method: su
   become_exe: sudo su -
   shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh stop
-  when: valpaver.stdout.split()[1] == "V22.1.00i"
+  when:
+	- valpaver.stdout.split()[1] == "V22.1.00i"
+	- valpaproc.stdout == "ACTIVO"
