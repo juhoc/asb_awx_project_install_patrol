@@ -76,7 +76,7 @@
   become_user: patrol
   become_method: su
   become_exe: sudo su -
-  shell: /patrol/Patrol3/PatrolAgent -v > out_PatrolAgentVersion 2>val_PatrolAgentVersion
+  shell: /patrol/Patrol3/PatrolAgent -v > ~/out_PatrolAgentVersion 2> ~/val_PatrolAgentVersion
 
 - name: Obtener la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
