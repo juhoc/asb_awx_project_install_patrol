@@ -71,7 +71,7 @@
     mode: 0754
     remote_src: yes
 
-- name: Obtener la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+- name: Generar salida de la version actual de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
   become_method: su
@@ -79,7 +79,7 @@
   shell: /patrol/Patrol3/PatrolAgent -v > ~/out_PatrolAgentVersion 2> ~/val_PatrolAgentVersion
   ignore_errors: yes
 
-- name: Obtener la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+- name: Validar la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
   become_method: su
@@ -103,4 +103,4 @@
   become_method: su
   become_exe: sudo su -
   shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh stop
-  when: valpaver.stdout.split()[1] != "V22.1.00i"
+  when: valpaver.stdout.split()[1] == "V22.1.00i"
