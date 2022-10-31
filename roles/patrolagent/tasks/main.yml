@@ -123,5 +123,17 @@
     - /etc/patrol.d/security_policy_v3.0/*
     - /etc/patrol.d/dlls.conf
   when: valpaver.stdout.split()[1] == "V22.1.00i"
-  
+
+- name: Remover directorios PatrolAgent en el remote Host.
+  become: yes
+  become_method: sudo
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /patrol/Patrol3/log/history/
+    - /patrol/Patrol3/log/streamcache/
+  when:
+    - valpaver.stdout.split()[1] == "V22.1.00i"
+    - valpaproc.stdout == "ACTIVO"
   
