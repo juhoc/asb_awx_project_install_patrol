@@ -45,24 +45,16 @@
      shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
      register: siexprochttp
 
-   - name: Resultado de la validacion del proceso SimpleHTTPServer
-     debug:
-       msg:
-       - "SimpleHTTPServer ........ACTIVO"
-     when: siexprochttp.stdout == "ACTIVO"
-
-   - name: Resultado de la falla del proceso SimpleHTTPServer
-     fail:
-       msg:
-       - "SimpleHTTPServer ........INACTIVO"
-       - "El procesos SimpleHTTPServer no pudo ser ACTIVADO correctamente"
-       - "Favor de contactar al Area Automatizacion"
-     when: siexprochttp.stdout == "INACTIVO"
-
    - name: Iniciar el proceso Simple HTTTP Server Python
      shell: |
         nohup python -m SimpleHTTPServer 8887 &
         sleep 18000
      async: 18000
      poll: 0
+     when: siexprochttp.stdout == "ACTIVO"
+
+   - name: Resultado de la validacion del proceso SimpleHTTPServer
+     debug:
+       msg:
+       - "SimpleHTTPServer ........ACTIVO"
      when: siexprochttp.stdout == "ACTIVO"
