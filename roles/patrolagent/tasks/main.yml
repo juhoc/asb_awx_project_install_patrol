@@ -162,11 +162,11 @@
   file:
     path: "{{ item }}"
     mode: 0644
-    ignore_errors: yes
+    recurse: yes
   ignore_errors: yes
   with_items:
     - /etc/patrol.d/patrol.conf
-    - /etc/patrol.d/security_policy_v3.0
+    - /etc/patrol.d/security_policy_v3.0/
     - /etc/patrol.d/dlls.conf
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
