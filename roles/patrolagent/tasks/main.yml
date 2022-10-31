@@ -70,3 +70,11 @@
     dest: /tmp
     mode: 0754
     remote_src: yes
+
+- name: Validar la version actual en el remote Host
+  become: yes
+  become_user: patrol
+  become_method: su
+  become_exe: sudo su -
+  shell: echo "./RunSilentInstall.sh -no_backup"
+  when: pav_val.stderr.split()[1] != "V22.1.00i"
