@@ -4,3 +4,13 @@
    path: /patrol/
   register: siperejcdirpa
   
+- name: Correccion de permisos al directorio /patrol antes de instalar en el remote Host
+  become: yes
+  become_method: sudo
+  file:
+    path: /patrol/
+    state: directory
+    owner: patrol
+    group: grppatro
+    mode: 0755
+  when: siperejcdirpa.stat.mode == 0755
