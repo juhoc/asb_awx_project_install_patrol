@@ -194,8 +194,9 @@
   become: yes
   become_method: sudo
   file:
-    path: /etc/patrol.d/security_policy_v3.0/
+    path: /etc/patrol.d/security_policy_v3.0
     state: directory
+    recurse: yes
     mode: 0644
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
