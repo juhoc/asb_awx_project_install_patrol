@@ -47,6 +47,7 @@
 
    - name: Iniciar el proceso Simple HTTTP Server Python
      shell: |
+        cd /tmp/pamediadwn/
         nohup python -m SimpleHTTPServer 8887 &
         sleep 18000
      async: 18000
