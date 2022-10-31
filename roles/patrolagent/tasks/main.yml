@@ -108,5 +108,5 @@
   become_exe: sudo su -
   shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh stop
   when:
-	- valpaver.stdout.split()[1] == "V22.1.00i"
-	- valpaproc.stdout == "ACTIVO"
+    - valpaver.stdout.split()[1] == "V22.1.00i"
+    - valpaproc.stdout == "ACTIVO"
