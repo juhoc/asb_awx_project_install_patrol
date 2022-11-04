@@ -1,65 +1,36 @@
 ---
-- name: Ansible PlayBook - Instalacion y Actualizacion PatrolAgent
-  #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
-  hosts: asitsmaop2.awx.lab.net
+- name: Ansible PlayBook - finalizar proceso SimpleHTTPServer
+  hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
+  #hosts: asitsmaop2.awx.lab.net
   gather_facts: yes
   become: yes
   become_method: sudo
   
   tasks:
-   - name: Validar si existe diretorio temporal para medias de instalacion PatrolAgent
-     stat:
-      path: /tmp/pamediadwn/
-     register: siexdirtmp
-
-   - name: Crear directorio temporal para medias de instalacion PatrolAgent
-     file:
-      path: /tmp/pamediadwn/
-      state: directory
-      owner: patrol
-      group: grppatro
-      mode: 0755
-     when: siexdirtmp.stat.exists == false
-
-   - name: Validando medias de instalacion PatrolAgent en el directorio repositorio
-     stat:
-      path: /bmc/bmcinstallers/{{ item }}
-     with_items:
-       - Base_AIX_Patrol_Without.tar.gz
-       - Base_Linux_Patrol_Without.tar.gz
-       - Base_Solaris_Patrol_Without.tar.gz
-     register: siexmedpa
-
-   - name: Mover medias de instalacion PatrolAgent al directorio temporal
-     copy:
-      src: /bmc/bmcinstallers/{{ item.item }}
-      dest: /tmp/pamediadwn/{{ item.item }}
-      owner: patrol
-      group: grppatro
-      mode: 0755
-      remote_src: yes
-     with_items: "{{ siexmedpa.results }}"
-     when: item.stat.exists
-
-   - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
-     shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
+   - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion en el equipo
+     shell: ss -ltpn | grep 8887 | awk '{print $4}' | tr -d "*:"
      register: siexprochttp
+  
+   - name: Finalizar Simple HTTTP Server Python
+     shell: kill -9 $(ss -ltpn | grep 8887 | awk '{print $6}' | cut -d = -f2 | cut -d , -f1)
+     when: siexprochttp.stdout == "8887"
+     
+   - name: Borrar medias de instalacion PatrolAgent al directorio temporal
+     file:
+       path: /tmp/pamediadwn/
+       state: absent
 
-   - name: Iniciar el proceso Simple HTTTP Server Python
-     shell: |
-        cd /tmp/pamediadwn/
-        nohup python -m SimpleHTTPServer 8887 &
-        sleep 18000
-     async: 18000
-     poll: 0
-     when: siexprochttp.stdout == "INACTIVO"
+   - name: Borrar directorio temporal Ansible
+     file:
+       path: /tmp/ansible_command_*
+       state: absent
 
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
-     shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
+     shell: ss -ltpn | grep 8887 | awk '{print $4}' | tr -d "*:"
      register: siexprochttp
 
    - name: Resultado de la validacion del proceso SimpleHTTPServer
      debug:
        msg:
-       - "SimpleHTTPServer ........ACTIVO"
-     when: siexprochttp.stdout == "ACTIVO"
+       - "SimpleHTTPServer ........INACTIVO"
+     when: siexprochttp.stdout == ""
