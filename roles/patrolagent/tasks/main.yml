@@ -3,8 +3,8 @@
   become: yes
   become_method: sudo
   get_url:
-   dest: /tmp/Base_AIX_Patrol_Without.tar.gz
-   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
+   dest: /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
    owner: patrol
    group: grppatro
    mode: 0754
@@ -15,8 +15,8 @@
   become: yes
   become_method: sudo
   get_url:
-   dest: /tmp/Base_Linux_Patrol_Without.tar.gz
-   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Linux_Patrol_Without.tar.gz
+   dest: /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
    owner: patrol
    group: grppatro
    mode: 0754
@@ -27,13 +27,13 @@
   become: yes
   become_method: sudo
   get_url:   
-   dest: /tmp/Base_Solaris_Patrol_Without.tar.gz
-   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_Solaris_Patrol_Without.tar.gz
+   dest: /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
+   url: http://{{ websrvsimple }}:{{ websrvport }}/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
    owner: patrol
    group: grppatro
    mode: 0754
    force_basic_auth: yes
-  when: ansible_facts['system'] == "Solaris"
+  when: ansible_facts['system'] == "SunOS"
   
 - name: Validar permisos en el directorio patrol en el remote host "{{ ansible_facts['nodename'] }}"
   stat:
@@ -72,21 +72,21 @@
     owner: patrol
     group: grppatro
     mode: 0754
-    
+
 - name: Generar salida de la version actual de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
-  shell: /patrol/Patrol3/PatrolAgent -v > ~/out_PatrolAgentVersion 2> ~/val_PatrolAgentVersion
+  #become_user: patrol
+  become_method: sudo
+  #become_exe: sudo su -
+  shell: /patrol/Patrol3/PatrolAgent -v > /tmp/out_PatrolAgentVersion 2> /tmp/val_PatrolAgentVersion
   ignore_errors: yes
 
 - name: Validar la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
-  shell: cat val_PatrolAgentVersion out_PatrolAgentVersion
+  #become_user: patrol
+  become_method: sudo
+  #become_exe: sudo su -
+  shell: cat /tmp/out_PatrolAgentVersion /tmp/val_PatrolAgentVersion
   register: valpaver
 
 - name: Iniciar la instalacion de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
@@ -101,18 +101,18 @@
 
 - name: Generar salida de la version actual de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
-  shell: /patrol/Patrol3/PatrolAgent -v > ~/out_PatrolAgentVersion 2> ~/val_PatrolAgentVersion
+  #become_user: patrol
+  become_method: sudo
+  #become_exe: sudo su -
+  shell: /patrol/Patrol3/PatrolAgent -v > /tmp/out_PatrolAgentVersion 2> /tmp/val_PatrolAgentVersion
   ignore_errors: yes
 
 - name: Validar la version actual PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
-  shell: cat val_PatrolAgentVersion out_PatrolAgentVersion
+  #become_user: patrol
+  become_method: sudo
+  #become_exe: sudo su -
+  shell: cat /tmp/out_PatrolAgentVersion /tmp/val_PatrolAgentVersion
   register: valpaver
 
 - name: Validar el proceso de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
@@ -244,3 +244,5 @@
   with_items:
     - /tmp/bmc_products/
     - /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
+    - /tmp/out_PatrolAgentVersion
+    - /tmp/val_PatrolAgentVersion
