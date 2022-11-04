@@ -20,10 +20,11 @@
        path: /tmp/pamediadwn/
        state: absent
 
-   - name: Borrar directorio temporal Ansible
-     file:
-       path: /tmp/ansible_command_*
-       state: absent
+   - name: Ansible delete file glob
+     find:
+       paths: /tmp/
+       patterns: ansible_command_*
+     register: deldirasb
 
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
      shell: ss -ltpn | grep 8887 | awk '{print $4}' | tr -d "*:"
