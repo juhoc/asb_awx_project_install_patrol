@@ -11,4 +11,4 @@
      find:
        paths: /tmp/
        patterns: ansible_command_*
-    register: deldirasb
+     register: deldirasb
