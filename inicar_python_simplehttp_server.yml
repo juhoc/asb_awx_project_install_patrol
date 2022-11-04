@@ -7,31 +7,8 @@
   become_method: sudo
   
   tasks:
-   - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion en el equipo
-     shell: ss -ltpn | grep 8887 | awk '{print $4}' | tr -d "*:"
-     register: siexprochttp
-  
-   - name: Finalizar Simple HTTTP Server Python
-     shell: kill -9 $(ss -ltpn | grep 8887 | awk '{print $6}' | cut -d = -f2 | cut -d , -f1)
-     when: siexprochttp.stdout == "8887"
-     
-   - name: Borrar medias de instalacion PatrolAgent al directorio temporal
-     file:
-       path: /tmp/pamediadwn/
-       state: absent
-
    - name: Ansible delete file
      find:
        paths: /tmp/
        patterns: ansible_command_*
      register: deldirasb
-
-   - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
-     shell: ss -ltpn | grep 8887 | awk '{print $4}' | tr -d "*:"
-     register: siexprochttp
-
-   - name: Resultado de la validacion del proceso SimpleHTTPServer
-     debug:
-       msg:
-       - "SimpleHTTPServer ........INACTIVO"
-     when: siexprochttp.stdout == ""
