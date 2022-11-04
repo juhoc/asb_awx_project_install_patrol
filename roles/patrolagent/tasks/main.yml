@@ -51,26 +51,28 @@
     mode: 0755
   when: siperejcdirpa.stat.mode != "0755"
 
-- name: Cambiar permisos al Inslador PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
-  become: yes
-  become_method: sudo
-  file:
-    path: /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
-    owner: patrol
-    group: grppatro
-    mode: 0754
-
 - name: Extraer el Inslador PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
+  #become_user: patrol
+  become_method: sudo
+  #become_exe: sudo su -
   unarchive:
     src: /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
     dest: /tmp
     mode: 0754
     remote_src: yes
 
+- name: Cambiar permisos al Inslador PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  become: yes
+  become_method: sudo
+  file:
+    path: /tmp/bmc_products
+    state: directory
+    recurse: yes
+    owner: patrol
+    group: grppatro
+    mode: 0754
+    
 - name: Generar salida de la version actual de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   become: yes
   become_user: patrol
