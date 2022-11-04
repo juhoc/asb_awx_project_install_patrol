@@ -1,7 +1,7 @@
 ---
 - name: Ansible PlayBook - Instalacion y Actualizacion PatrolAgent
-  hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
-  #hosts: asitsmaop2.awx.lab.net
+  #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
+  hosts: asitsmaop2.awx.lab.net
   gather_facts: yes
   become: yes
   become_method: sudo
