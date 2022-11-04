@@ -3,5 +3,5 @@
   #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
   hosts: asitsmaop2.awx.lab.net
   tasks:
-  - name: Remover directorios temporales Ansible
-    raw: sudo rm -rf /tmp/ansible_command_payload_*
+   - name: Remover directorios temporales Ansible
+     raw: sudo rm -rf /tmp/ansible_command_payload_*
