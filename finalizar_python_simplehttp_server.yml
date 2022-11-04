@@ -1,19 +1,19 @@
 ---
 - name: Ansible PlayBook - finalizar proceso SimpleHTTPServer
-  #hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
-  hosts: asitsmaop2.awx.lab.net
+  hosts: asitsmaop2.bvm.ibmes.bluecare.ibm.com
+  #hosts: asitsmaop2.awx.lab.net
   gather_facts: yes
   become: yes
   become_method: sudo
   
   tasks:
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion en el equipo
-     shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
+     shell: ss -ltpn | grep 8887 | awk '{print $4}' | tr -d "*:"
      register: siexprochttp
   
    - name: Finalizar Simple HTTTP Server Python
-     shell: kill -9 $(ps -eo pid,args | grep -v grep | grep SimpleHTTPServer | awk '{print $1}')
-     when: siexprochttp.stdout == "ACTIVO"
+     shell: kill -9 $(ss -ltpn | grep 8887 | awk '{print $6}' | cut -d = -f2 | cut -d , -f1)
+     when: siexprochttp.stdout == "8887"
      
    - name: Borrar medias de instalacion PatrolAgent al directorio temporal
      file:
@@ -21,11 +21,11 @@
        state: absent
 
    - name: Validar si el proceso SimpleHTTPServer esta en ejeucucion
-     shell: ps 2>/dev/null -eo args | grep SimpleHTTPServer | grep -v grep >/dev/null && echo ACTIVO || echo INACTIVO
+     shell: ss -ltpn | grep 8887 | awk '{print $4}' | tr -d "*:"
      register: siexprochttp
 
    - name: Resultado de la validacion del proceso SimpleHTTPServer
      debug:
        msg:
        - "SimpleHTTPServer ........INACTIVO"
-     when: siexprochttp.stdout == "INACTIVO"
+     when: siexprochttp.stdout == ""
