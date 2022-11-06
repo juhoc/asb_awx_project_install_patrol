@@ -89,14 +89,18 @@
   shell: cat /tmp/out_PatrolAgentVersion /tmp/val_PatrolAgentVersion
   register: valpaver
 
-- name: Iniciar la instalacion de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
-  become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
-  shell: |
-    cd /tmp/bmc_products/
-    ./RunSilentInstall.sh -no_backup
+#- name: Iniciar la instalacion de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  #become: yes
+  #become_user: patrol
+  #become_method: su
+  #become_exe: sudo su -
+  #shell: |
+    #cd /tmp/bmc_products/
+    #./RunSilentInstall.sh -no_backup
+  #when: valpaver.stdout.split()[1] != "V22.1.00i"
+
+- name: Instalacion con el Modulo Ansible Raw 
+  raw: sudo su - patrol "cd /tmp/bmc_products/; ./RunSilentInstall.sh -no_backup
   when: valpaver.stdout.split()[1] != "V22.1.00i"
 
 - name: Generar salida de la version actual de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
