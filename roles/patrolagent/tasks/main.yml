@@ -86,7 +86,7 @@
   #become_user: patrol
   become_method: sudo
   #become_exe: sudo su -
-  shell: cat /tmp/out_PatrolAgentVersion /tmp/val_PatrolAgentVersion
+  shell: cat /tmp/out_PatrolAgentVersion /tmp/val_PatrolAgentVersion | grep -i ^PatrolAgent
   register: valpaver
 
 #- name: Iniciar la instalacion de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
@@ -116,19 +116,29 @@
   #become_user: patrol
   become_method: sudo
   #become_exe: sudo su -
-  shell: cat /tmp/out_PatrolAgentVersion /tmp/val_PatrolAgentVersion
+  shell: cat /tmp/out_PatrolAgentVersion /tmp/val_PatrolAgentVersion | grep -i ^PatrolAgent
   register: valpaver
 
 - name: Validar el proceso de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   shell: ps -eo args | grep -v grep | grep -i patrolagent >/dev/null && echo ACTIVO || echo INACTIVO
   register: valpaproc
 
+#- name: Baja antes de la reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  #become: yes
+  #become_user: patrol
+  #become_method: su
+  #become_exe: sudo su -
+  #shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh stop
+  #when:
+    #- valpaver.stdout.split()[1] == "V22.1.00i"
+    #- valpaproc.stdout == "ACTIVO"
+
 - name: Baja antes de la reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
-  become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
-  shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh stop
+  #become: yes
+  #become_user: patrol
+  #become_method: su
+  #become_exe: sudo su -
+  raw: sudo su - patrol -c "/patrol/Patrol3/scripts.d/S50PatrolAgent.sh stop"
   when:
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout == "ACTIVO"
@@ -208,13 +218,23 @@
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout == "INACTIVO"
 
+#- name: Alta despues de la reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
+  #become: yes
+  #become_user: patrol
+  #become_method: su
+  #become_exe: sudo su -
+  #shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh start
+  #register: sttpaarc
+  #when: 
+    #- valpaver.stdout.split()[1] == "V22.1.00i"
+    #- valpaproc.stdout == "INACTIVO"
+
 - name: Alta despues de la reconfiguracion el servicios de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
-  become: yes
-  become_user: patrol
-  become_method: su
-  become_exe: sudo su -
-  shell: /patrol/Patrol3/scripts.d/S50PatrolAgent.sh start
-  register: sttpaarc
+  #become: yes
+  #become_user: patrol
+  #become_method: su
+  #become_exe: sudo su -
+  raw: sudo su - patrol -c "/patrol/Patrol3/scripts.d/S50PatrolAgent.sh start"  
   when: 
     - valpaver.stdout.split()[1] == "V22.1.00i"
     - valpaproc.stdout == "INACTIVO"
@@ -250,4 +270,3 @@
     - /tmp/Base_{{ ansible_facts['system'] }}_Patrol_Without.tar.gz
     - /tmp/out_PatrolAgentVersion
     - /tmp/val_PatrolAgentVersion
-
