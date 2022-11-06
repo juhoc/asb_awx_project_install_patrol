@@ -99,7 +99,7 @@
     #./RunSilentInstall.sh -no_backup
   #when: valpaver.stdout.split()[1] != "V22.1.00i"
 
-- name: Instalacion con el Modulo Ansible Raw 
+- name: Iniciar la instalacion de PatrolAgent en el remote Host "{{ ansible_facts['nodename'] }}"
   raw: sudo su - patrol -c "cd /tmp/bmc_products/; ./RunSilentInstall.sh -no_backup"
   when: valpaver.stdout.split()[1] != "V22.1.00i"
 
