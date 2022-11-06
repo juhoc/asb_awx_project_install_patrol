@@ -251,6 +251,3 @@
     - /tmp/out_PatrolAgentVersion
     - /tmp/val_PatrolAgentVersion
 
-- name: Prueba de comando crudo
-  raw: rpm -aq | grep -i ssh
-  when: valpaver.stdout.split()[1] == "V22.1.00i"
